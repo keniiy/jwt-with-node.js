@@ -41,14 +41,13 @@ module.exports.signup_get = (req, res) => {
   module.exports.signup_post = async (req, res) => {
     const { email, password } = req.body
     try {
-        const user = await User.create({email, password})
-        res.status(201).json(user);
+        const user = await User.create({email, password})  
         const token = createToken(user._id)
         res.cookie('jwt', token, {httpOnly: true, maxAge: maxAge * 1000 })
-        res.send(201).json({ user: user_id })
+        res.sendStatus(201).json({ user: user._id })
     } catch (err) {
         const errors = handlError(err);
-        res.status(400).json({ errors })
+        res.sendStatus(400).json({ errors })
     }
   }
   
